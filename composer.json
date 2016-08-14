@@ -1,0 +1,30 @@
+{
+  "name": "spyric/ispmanager-sdk",
+  "description": "SDK for ISPManager",
+  "type": "library",
+  "require": {
+    "guzzlehttp/guzzle": "^6.2",
+    "tightenco/collect": "^5.2"
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Spyric\\ISPManager\\": "src/"
+    }
+  },
+  "require-dev": {
+    "mockery/mockery": "^0.9.5",
+    "phpunit/phpunit": "5.5.*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Egor Talantsev",
+      "email": "spyric@ananas-web.ru"
+    }
+  ]
+}
