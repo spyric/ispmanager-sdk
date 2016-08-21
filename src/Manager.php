@@ -1,6 +1,7 @@
 <?php
 namespace Spyric\ISPManager;
 
+use Spyric\ISPManager\Objects\Database;
 use Spyric\ISPManager\Objects\FTPUser;
 use Spyric\ISPManager\Objects\User;
 use Spyric\ISPManager\Objects\WWWDomain;
@@ -48,6 +49,14 @@ class Manager
     public function WWWDomain()
     {
         return (new WWWDomain())->setApi($this->api);
+    }
+
+    /**
+     * @return Database
+     */
+    public function Database()
+    {
+        return (new Database())->setApi($this->api);
     }
 
     public function getApi()

@@ -43,32 +43,35 @@ class Request
      */
     public function send($action, $data)
     {
-        /** @noinspection SpellCheckingInspection */
-        $url = 'https://' . $this->host . ':' . $this->port . '/ispmgr';
-
-        /** @noinspection SpellCheckingInspection */
-        $defaultData = [
-            'func'     => $action,
-            'authinfo' => $this->user . ':' . $this->password,
-            'out'      => 'JSONdata',
-        ];
-
-        $data = array_merge($defaultData, $data);
-        $url = $url . '?' . http_build_query($data);
-
         $client = new Client([
             'curl' => [
                 CURLOPT_SSL_VERIFYHOST => 0,
                 CURLOPT_SSL_VERIFYPEER => 0,
             ],
         ]);
-        $response = $client->get($url)->getBody()->getContents();
+        $response = $client->get($this->link($action, $data))->getBody()->getContents();
 
         if ($jsonResponse = json_decode($response, true)) {
             return $jsonResponse;
         }
 
         return $response;
+    }
+
+    public function link($action, $data)
+    {
+        $data = array_merge([
+            'func'     => $action,
+            'authinfo' => $this->user . ':' . $this->password,
+            'out'      => 'JSONdata',
+        ], $data);
+
+        $data = collect($data)
+            ->reject(function ($item) {
+                return is_null($item);
+            })->all();
+
+        return 'https://' . $this->host . ':' . $this->port . '/ispmgr?' . http_build_query($data);
     }
 
 }
